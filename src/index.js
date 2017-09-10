@@ -1,8 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import Voting from './components/Voting';
 
-ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
+const pair = ['Titanic', 'Shutter Island'];
+
+const rootEl = document.getElementById('root');
+
+ReactDOM.render(<Voting pair={pair} />, rootEl);
+
+if(module.hot) {
+    module.hot.accept('./components/Voting', () => {
+        ReactDOM.render(<Voting pair={pair}/>, rootEl);
+    });
+}
