@@ -5,8 +5,9 @@ import {
     scryRenderedDOMComponentsWithTag,
     Simulate
 } from 'react-dom/test-utils';
-import Voting from './Voting';
+import { List } from 'immutable';
 import { expect } from 'chai';
+import Voting from './Voting';
 
 
 describe('Voting', () => {
@@ -68,6 +69,46 @@ describe('Voting', () => {
         const winner = ReactDOM.findDOMNode(component.refs.winner);
         expect(winner).to.be.ok;
         expect(winner.textContent).to.contain('Titanic');
+    });
+
+    test.skip('renders as a pure component', () => {
+        const pair = ['Titanic', 'Shutter Island'];
+        const container = document.createElement('div');
+        let component = ReactDOM.render(
+            <Voting pair={pair} />,
+            container
+        );
+
+        let firstButton = scryRenderedDOMComponentsWithTag(component, 'button')[0];
+        expect(firstButton.textContent).to.equal('Titanic');
+
+        pair[0] = 'Shutter Island';
+        component = ReactDOM.render(
+            <Voting pair={pair} />,
+            container
+        );
+        firstButton = scryRenderedDOMComponentsWithTag(component, 'button')[0];
+        expect(firstButton.textContent).to.equal('Titanic');
+    });
+
+    test('does update DOM when prop changes', () => {
+        const pair = List.of('Titanic', 'Shutter Island');
+        const container = document.createElement('div');
+        let component = ReactDOM.render(
+            <Voting pair={pair} />,
+            container
+        );
+
+        let firstButton = scryRenderedDOMComponentsWithTag(component, 'button')[0];
+        expect(firstButton.textContent).to.equal('Titanic');
+
+        const newPair = pair.set(0, 'Shutter Island');
+        component = ReactDOM.render(
+            <Voting pair={newPair} />,
+            container
+        );
+        firstButton = scryRenderedDOMComponentsWithTag(component, 'button')[0];
+        expect(firstButton.textContent).to.equal('Shutter Island');
     });
 
 });

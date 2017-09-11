@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import Winner from './Winner';
 import Vote from './Vote';
 
-class Voting extends Component {
+class Voting extends React.PureComponent {
     render() {
         return (
             <div>

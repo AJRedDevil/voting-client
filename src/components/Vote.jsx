@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Vote extends Component {
+class Vote extends React.PureComponent {
     getPair = () => {
         return this.props.pair || [];
     }
@@ -16,8 +16,8 @@ class Vote extends Component {
     render() {
         return (
             <div className="voting">
-                {this.getPair().map(entry => 
-                    <button key={entry}
+                {this.getPair().map((entry, index) => 
+                    <button key={index}
                             disabled={this.isDisabled()}
                             onClick={() => this.props.vote(entry)}>
                         <h1>{entry}</h1>
